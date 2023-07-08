@@ -1,5 +1,6 @@
-package com.book.employeebook;
+package com.book.employeebook.services;
 
+import com.book.employeebook.Employee;
 import com.book.employeebook.exceptions.*;
 import org.springframework.stereotype.Service;
 
@@ -8,8 +9,6 @@ import java.util.*;
 @Service
 public class EmployeeBookServiceImpl implements EmployeeBookService {
     private final Map<String, Employee> employees;
-    private static final int quantity = 50;
-
     public EmployeeBookServiceImpl() {
         this.employees = new HashMap<>();
     }
@@ -20,18 +19,18 @@ public class EmployeeBookServiceImpl implements EmployeeBookService {
     }
 
     @Override
-    public Employee findEmployee(String firsName, String lastName) {
+    public Collection<Employee> findEmployee(String firsName, String lastName) {
         Employee employee = new Employee(firsName, lastName);
-        if (!employees.containsKey(employee.getLastName())) {
+        if (!employees.containsKey(employee.getFullName())) {
             throw new EmployeeNotFoundException();
         } else {
-            return employee;
+            return employees.values();
         }
 
     }
     @Override
-    public void addEmployee(String firsName, String lastName) {
-        Employee employee = new Employee(firsName, lastName);
+    public void addEmployee(String firsName, String lastName, Integer wage, Integer department) {
+        Employee employee = new Employee(firsName, lastName, wage, department);
         if (employees.containsKey(employee.getLastName())) {
             throw new EmployeeAlreadyAddedException();
         } else {
@@ -40,7 +39,7 @@ public class EmployeeBookServiceImpl implements EmployeeBookService {
     }
     public void removeEmployee(String firsName, String lastName) {
         Employee employee = new Employee(firsName, lastName);
-        if (!employees.containsKey(employee.getLastName())) {
+        if (!employees.containsKey(employee.getFullName())) {
             throw new EmployeeNotFoundException();
         } else {
             employees.remove(employee.getFullName());

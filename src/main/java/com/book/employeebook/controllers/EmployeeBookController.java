@@ -1,4 +1,6 @@
-package com.book.employeebook;
+package com.book.employeebook.controllers;
+import com.book.employeebook.Employee;
+import com.book.employeebook.services.EmployeeBookService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,23 +24,23 @@ public class EmployeeBookController {
         return "hello world!";
     }
     @GetMapping(path = "/find")
-    public Employee findEmployee(@RequestParam("firstName") String firstName,
+    public Collection<Employee> findEmployee(@RequestParam("firstName") String firstName,
                                  @RequestParam("lastName") String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
     @GetMapping(path = "/add")
     public Employee addEmployee(@RequestParam("firstName") String firstName,
-                                @RequestParam("lastName") String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        employeeService.addEmployee(firstName, lastName);
+                                @RequestParam("lastName") String lastName,
+                                @RequestParam("wage") Integer wage,
+                                @RequestParam("department") Integer department) {
+        Employee employee = new Employee(firstName, lastName, wage, department);
+        employeeService.addEmployee(firstName, lastName, wage, department);
         return employee;
     }
     @GetMapping(path = "/remove")
-    public Employee removeEmployee(@RequestParam("firstName") String firstName,
+    public void removeEmployee(@RequestParam("firstName") String firstName,
                                    @RequestParam("lastName") String lastName) {
-        Employee employee = new Employee(firstName, lastName);
         employeeService.removeEmployee(firstName, lastName);
-        return employee;
     }
     @GetMapping(path = "/showAll")
     public ResponseEntity<Collection<Employee>> showAllEmployees() {

@@ -1,7 +1,5 @@
 package com.book.employeebook.services;
-
 import com.book.employeebook.Employee;
-
 import java.util.Collection;
 
 public interface EmployeeBookService {

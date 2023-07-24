@@ -2,6 +2,7 @@ package com.book.employeebook.services;
 
 import com.book.employeebook.Employee;
 import com.book.employeebook.exceptions.*;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -9,8 +10,10 @@ import java.util.*;
 @Service
 public class EmployeeBookServiceImpl implements EmployeeBookService {
     private final Map<String, Employee> employees;
-    public EmployeeBookServiceImpl() {
+    private final EmployeeIllegalArgumentService illegalArgumentService;
+    public EmployeeBookServiceImpl(EmployeeIllegalArgumentService illegalArgumentService) {
         this.employees = new HashMap<>();
+        this.illegalArgumentService = illegalArgumentService;
     }
 
     @Override
@@ -26,17 +29,20 @@ public class EmployeeBookServiceImpl implements EmployeeBookService {
         } else {
             return employees.values();
         }
-
     }
     @Override
     public void addEmployee(String firsName, String lastName, Integer wage, Integer department) {
+        StringUtils.capitalize(firsName);
+        StringUtils.capitalize(lastName);
         Employee employee = new Employee(firsName, lastName, wage, department);
-        if (employees.containsKey(employee.getLastName())) {
+        if (employees.containsKey(employee.getFullName())) {
             throw new EmployeeAlreadyAddedException();
         } else {
+            illegalArgumentService.validate(firsName, lastName);
             employees.put(employee.getFullName(), employee);
         }
     }
+    @Override
     public void removeEmployee(String firsName, String lastName) {
         Employee employee = new Employee(firsName, lastName);
         if (!employees.containsKey(employee.getFullName())) {

@@ -2,10 +2,7 @@ package com.book.employeebook.controllers;
 
 import com.book.employeebook.Employee;
 import com.book.employeebook.services.WageAndDepartmentService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
 import java.util.List;
@@ -19,20 +16,23 @@ public class WageAndDepartmentController {
     public WageAndDepartmentController(WageAndDepartmentService wageAndDepartmentService) {
         this.wageAndDepartmentService = wageAndDepartmentService;
     }
-
-    @GetMapping(path = "/max-salary")
-    public Employee getMaxSalaryByDepartment(@RequestParam("departmentId") Integer department) {
+    @GetMapping(path = "/{id}/salary/sum")
+    public Integer getDepartmentSalarySum(@PathVariable("id") Integer department) {
+        return wageAndDepartmentService.getDepartmentSalarySum(department);
+    }
+    @GetMapping(path = "/{id}/salary/max")
+    public Employee getMaxSalaryByDepartment(@PathVariable("id") Integer department) {
         return wageAndDepartmentService.getMaxSalaryByDepartment(department);
     }
-    @GetMapping(path = "/min-salary")
-    public Employee getMinSalaryByDepartment(@RequestParam("departmentId") Integer department) {
+    @GetMapping(path = "/{id}/salary/min")
+    public Employee getMinSalaryByDepartment(@PathVariable("id") Integer department) {
         return wageAndDepartmentService.getMinSalaryByDepartment(department);
     }
-    @GetMapping(path = "/all", params = "departmentId")
-    public Collection<Employee> getAllEmployeesByDepartment(@RequestParam("departmentId") Integer department) {
+    @GetMapping(path = "{id}/employees")
+    public Collection<Employee> getAllEmployeesByDepartment(@PathVariable("id") Integer department) {
         return wageAndDepartmentService.getAllEmployeesByDepartment(department);
     }
-    @GetMapping(path = "/all")
+    @GetMapping(path = "/employees")
     public Map<Integer, List<Employee>> getAllEmployeesGroupByDepartment() {
         return wageAndDepartmentService.getAllEmployeesGroupByDepartment();
     }

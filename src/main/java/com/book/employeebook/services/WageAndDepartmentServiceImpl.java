@@ -16,6 +16,15 @@ public class WageAndDepartmentServiceImpl implements WageAndDepartmentService {
     public WageAndDepartmentServiceImpl(EmployeeBookService employeeBookService) {
         this.employeeBookService = employeeBookService;
     }
+
+    @Override
+    public Integer getDepartmentSalarySum(Integer department) {
+        return employeeBookService.showAllEmployees().stream()
+                .filter(e -> e.getDepartment().equals(department))
+                .mapToInt(Employee::getWage)
+                .sum();
+    }
+
     @Override
     public Employee getMaxSalaryByDepartment(Integer department) {
         return employeeBookService.showAllEmployees().stream()

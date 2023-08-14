@@ -7,8 +7,9 @@ import java.util.List;
 import java.util.Map;
 
 public interface WageAndDepartmentService {
-    public Employee getMaxSalaryByDepartment(Integer department);
-    public Employee getMinSalaryByDepartment(Integer department);
-    public Collection<Employee> getAllEmployeesByDepartment(Integer department);
-    public Map<Integer, List<Employee>> getAllEmployeesGroupByDepartment();
+    Integer getDepartmentSalarySum(Integer department);
+    Employee getMaxSalaryByDepartment(Integer department);
+    Employee getMinSalaryByDepartment(Integer department);
+    Collection<Employee> getAllEmployeesByDepartment(Integer department);
+    Map<Integer, List<Employee>> getAllEmployeesGroupByDepartment();
 }

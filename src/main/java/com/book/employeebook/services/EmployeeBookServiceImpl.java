@@ -22,16 +22,16 @@ public class EmployeeBookServiceImpl implements EmployeeBookService {
     }
 
     @Override
-    public Collection<Employee> findEmployee(String firsName, String lastName) {
+    public Employee findEmployee(String firsName, String lastName) {
         Employee employee = new Employee(firsName, lastName);
         if (!employees.containsKey(employee.getFullName())) {
             throw new EmployeeNotFoundException();
         } else {
-            return employees.values();
+            return employee;
         }
     }
     @Override
-    public void addEmployee(String firsName, String lastName, Integer wage, Integer department) {
+    public Employee addEmployee(String firsName, String lastName, Integer wage, Integer department) {
         StringUtils.capitalize(firsName);
         StringUtils.capitalize(lastName);
         Employee employee = new Employee(firsName, lastName, wage, department);
@@ -41,15 +41,17 @@ public class EmployeeBookServiceImpl implements EmployeeBookService {
             illegalArgumentService.validate(firsName, lastName);
             employees.put(employee.getFullName(), employee);
         }
+        return employee;
     }
     @Override
-    public void removeEmployee(String firsName, String lastName) {
+    public Employee removeEmployee(String firsName, String lastName) {
         Employee employee = new Employee(firsName, lastName);
         if (!employees.containsKey(employee.getFullName())) {
             throw new EmployeeNotFoundException();
         } else {
             employees.remove(employee.getFullName());
         }
+        return employee;
     }
     @Override
     public Collection<Employee> showAllEmployees() {

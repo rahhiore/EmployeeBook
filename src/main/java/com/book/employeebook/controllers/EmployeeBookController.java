@@ -24,7 +24,7 @@ public class EmployeeBookController {
         return "hello world!";
     }
     @GetMapping(path = "/find")
-    public Collection<Employee> findEmployee(@RequestParam("firstName") String firstName,
+    public Employee findEmployee(@RequestParam("firstName") String firstName,
                                  @RequestParam("lastName") String lastName) {
         return employeeService.findEmployee(firstName, lastName);
     }
